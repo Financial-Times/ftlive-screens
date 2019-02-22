@@ -2,7 +2,8 @@
 'use strict'; //eslint-disable-line strict
 const fs = require('fs');
 const gulp = require('gulp');
-const obt = require('origami-build-tools');
+const obtBuild = require('origami-build-tools/lib/tasks/build')
+const obtVerify = require('origami-build-tools/lib/tasks/verify')
 const spawn = require('child_process').spawn;
 let node;
 
@@ -36,7 +37,7 @@ function build(app) {
 		obtConfig.buildCss = 'bundle.css';
 	}
 
-	return obt.build(gulp, obtConfig);
+	return obtBuild(gulp, obtConfig);
 }
 
 gulp.task('buildLogs', done => {
@@ -94,7 +95,7 @@ gulp.task('buildGenerators', gulp.parallel('buildGeneratorLayoutView', 'buildGen
 gulp.task('build', gulp.parallel('buildLogs', 'buildAdmin', 'buildViewer', 'buildGenerators'));
 
 gulp.task('verify', done => {
-	obt.verify(gulp, {
+	obtVerify(gulp, {
 
 		// Files to exclude from Origami verify
 		excludeFiles: [
